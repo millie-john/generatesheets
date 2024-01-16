@@ -1,5 +1,5 @@
-# generatesheets
-Scripts to generate randomised sheets.
+# Generate Sheets
+Scripts to generate randomised sheets for testing.
 
 ## `singlesheets.R`
 
