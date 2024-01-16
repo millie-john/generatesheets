@@ -69,7 +69,7 @@ df_comp <- data.frame() # Empty data frame to bind the lists
 sheets <- 3 # How many sheets you are trying to generate
 
 # Loop to find data frames that pass criteria
-for (i in 1:100000) {
+for (i in 1:1000000) {
   # Make a random data frame of 20 trials sampled from list, sample without replacement
   df <- comb %>% slice_sample(n = 20, replace = FALSE)
   
