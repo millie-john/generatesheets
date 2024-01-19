@@ -207,6 +207,8 @@ colnames(df_save) <-
     "✓",
     "")
 
+df_save <- df_save[,c(1,6,2,3,4,5,7,8,9,10,11)]
+                 
 write.csv(
   x = df_save,
   file = paste0("List_60", i, ".csv"),
