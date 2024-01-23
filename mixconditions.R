@@ -1,6 +1,6 @@
 # Generate 60 trial sheets
 # Written by Millie Johnston
-# Version 0.1
+# Version 0.2
 # Last updated 2023-01-016
 
 ### Randomise hand movements
@@ -10,7 +10,14 @@
 # Reward   R or L (no more than 2 in a row and equal distribution)
 # Movement P or C (no more than 2 in a row and equal distribution)
 # Final    R or L (no more than 2 in a row and equal distribution)
-# Generate 3 sets, then add labels 1,2,3, and then check for distribution again (no more than 2 in a row and equal distribution)
+# 
+# Generate 3 sheets, then add labels 1,2,3, and then check for distribution again (no more than 2 in a row and equal distribution)
+# Individual sheets are named `Iteration_<number>.csv`
+# Final sheet is named `List_<number>.csv`
+# Sheets will be generated in the folder location you are executing from, you can check this using `getwd()`
+# You can change your working directory with `setwd()`, for example, `setwd("~/Desktop")`
+#
+# Packages are listed at the top and should autoinstall if they are not already available.
 ##-----------------------------------------------
 
 # Install packages if not already installed
@@ -84,7 +91,7 @@ for (i in 1:500000) {
     next
   }
   
-  # Nested loop to add sample hand, runs check to see if there are any combinations or 3 or more
+  # Nested loop to add sample hand, runs check to see if there are any combinations of 3 or more for the first 2 columns (sample and reward)
   for (z in 1:100000) {
     df_s <- as.data.frame(sam) %>% slice_sample(n = 20, replace = FALSE)
     df_s <- cbind(df_s, df)
@@ -164,7 +171,7 @@ while (nrow(df_copy) > 0) {
     new_df <- rs_new_df
     df_copy <- rs_df_copy
   } else {
-    print(i)
+    print("Looking...")
   }
   
   # Make temp df of final three rows for check for consecutive
@@ -208,7 +215,8 @@ colnames(df_save) <-
     "")
 
 df_save <- df_save[,c(1,6,2,3,4,5,7,8,9,10)]
-                 
+
+# Write a csv with 60 trials that were randomised
 write.csv(
   x = df_save,
   file = paste0("List_60", i, ".csv"),
