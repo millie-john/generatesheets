@@ -18,3 +18,5 @@ You can change your working directory with `setwd()`, for example, `setwd("~/Des
 **v0.2**: Added more notes to the code and reordered columns. Run time is approx 30 seconds to generate 3 sheets plus the mixed conditions.
 
 **0.3**: Now tests for congruent and non-congruent trials. The script will make sure even there is an even distribution (5 LL, 5 RR, 5 LR, 5, RL) for each sheet. Run time is approx 90 seconds to generate 3 sheets plus the mixed conditions.
+
+**0.4**: Reordered columns on saved 60 trial sheet.
