@@ -1,7 +1,7 @@
 # Generate 60 trial sheets
 # Written by Millie Johnston
-# Version 0.3
-# Last updated 2023-01-016
+# Version 0.4
+# Last updated 2023-01-24
 
 ### Randomise hand movements
 ##-----------------------------------------------
@@ -216,7 +216,8 @@ colnames(df_save) <-
     "✓",
     "")
 
-df_save <- df_save[, c(1, 6, 2, 3, 4, 5, 7, 8, 9, 10)]
+# Order columns
+df_save <- df_save[,c(1,6,3,2,4,5,7,8,9,10)]
 
 # Write a csv with 60 trials that were randomised
 write.csv(
