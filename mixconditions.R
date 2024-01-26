@@ -64,7 +64,7 @@ sam <- cbind(sam)
 # Replicate sample hand 10 times so it now equals 20
 sam <- sam[rep(seq_len(nrow(sam)), 10), ]
 
-# Function to check if conditions are represented n or more times in a row, returns true of false
+# Function to check if conditions are represented in a sequence n or more times, in a column, returns true or false. Queries if the sequence "has consecutive", if false, it's a good thing.
 has_consecutive <- function(vec, n) {
   any(sapply(rle(as.character(vec))$lengths, function(x)
     x >= n))
