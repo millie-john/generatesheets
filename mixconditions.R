@@ -10,6 +10,9 @@
 # Reward   R or L (no more than 2 in a row and equal distribution)
 # Movement P or C (no more than 2 in a row and equal distribution)
 # Final    R or L (no more than 2 in a row and equal distribution)
+# 
+# Sample and Reward (no more than 2 in a row and equal distribution)
+# Sample, Reward, and Movement (no more than 2 in a row and equal distribution)
 #
 # Generate 3 sheets, then add labels 1,2,3, and then check for distribution again (no more than 2 in a row and equal distribution)
 # Individual sheets are named `Iteration_<number>.csv`
@@ -91,19 +94,22 @@ for (i in 1:5000000) {
     next
   }
   
-  # Nested loop to add sample hand, runs check to see if there are any runs of 3 or more for the first 2 columns (sample and reward) and if there is an even distribution of congruent and noncongruent trials
+  # Nested loop to add sample hand, runs check to see if there are any runs of 3 or more for the first 2 columns (sample and reward) and if there is an even distribution of congruent and noncongruent trials, and if there is an even distribution of the first 3 columns.
   for (z in 1:5000000) {
     df_s <- as.data.frame(sam) %>% slice_sample(n = 20, replace = FALSE)
     df_s <- cbind(df_s, df)
     if (any(apply(df_s[, 1:2], 2, function(x)
       has_consecutive(x, 3))) ||
-      !all(table(paste(df_s[, 1], df_s[, 2], sep = "")) == 5)) {
+      !all(table(paste(df_s[, 1], df_s[, 2], sep = "")) == 5) ||
+      has_consecutive(df_s[,1] == df_s[,2], 3) ||
+      !all(table(paste(df_s[, 1], df_s[, 2], df_s[, 3], sep = ""))  > 3) ) {
       next
     } else {
       break
     }
   }
   
+  # Five of the different types (RR, LL, RL, & LR)
   
   # Bind to df and add column names
   df <- cbind(df_s[, 1], df)
