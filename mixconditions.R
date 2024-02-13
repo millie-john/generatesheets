@@ -1,7 +1,7 @@
 # Generate 60 trial sheets
 # Written by Millie Johnston
-# Version 0.4
-# Last updated 2023-01-24
+# Version 0.5
+# Last updated 2024-02-13
 
 ### Randomise hand movements
 ##-----------------------------------------------
