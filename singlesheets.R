@@ -1,7 +1,7 @@
-# Generate single trial sheets
+# Generate 20 trial sheets
 # Written by Millie Johnston
-# Version 0.1
-# Last updated 2023-01-016
+# Version 0.2
+# Last updated 2023-02-13
 
 ### Randomise hand movements
 ##-----------------------------------------------
@@ -10,7 +10,16 @@
 # Reward   R or L (no more than 2 in a row and equal distribution)
 # Movement P or C (no more than 2 in a row and equal distribution)
 # Final    R or L (no more than 2 in a row and equal distribution)
-# Generate 3 sets, then add labels 1,2,3, and then check for distribution again (no more than 2 in a row and equal distribution)
+# 
+# Sample and Reward (no more than 2 in a row and equal distribution)
+# Sample, Reward, and Movement (no more than 2 in a row and equal distribution)
+#
+# Generate 3 sheets at a time because I'm lazy and didn't change the code break function
+# Individual sheets are named `Iteration_<number>.csv`
+# Sheets will be generated in the folder location you are executing from, you can check this using `getwd()`
+# You can change your working directory with `setwd()`, for example, `setwd("~/Desktop")`
+#
+# Packages are listed at the top and should auto-install if they are not already available.
 ##-----------------------------------------------
 
 # Install packages if not already installed
@@ -43,7 +52,7 @@ finpos <- apply(comb[, 1:2], 1, function(x)
 finpos <-
   ifelse(finpos == "LP", "L", ifelse(finpos == "RP", "R", ifelse(finpos == "LC", "R", "L")))
 comb <- cbind(comb, finpos)
-comb <- comb[rep(seq_len(nrow(comb)), 5),]
+comb <- comb[rep(seq_len(nrow(comb)), 5), ]
 
 # Make a list for sample hand
 sam <- list(sample = c("R", "L"))
@@ -55,9 +64,9 @@ sam <- expand.grid(sam)
 sam <- cbind(sam)
 
 # Replicate sample hand 10 times so it now equals 20
-sam <- sam[rep(seq_len(nrow(sam)), 10),]
+sam <- sam[rep(seq_len(nrow(sam)), 10), ]
 
-# Function to check if conditions are represented n or more times in a row, returns true of false
+# Function to check if conditions are represented in a sequence n or more times, in a column, returns true or false. Queries if the sequence "has consecutive", if false, it's a good thing.
 has_consecutive <- function(vec, n) {
   any(sapply(rle(as.character(vec))$lengths, function(x)
     x >= n))
@@ -66,10 +75,9 @@ has_consecutive <- function(vec, n) {
 # Prepare for loop
 j = 1 # Start of counter so you can stop it after generating "sheets" lists
 df_comp <- data.frame() # Empty data frame to bind the lists
-sheets <- 3 # How many sheets you are trying to generate
 
 # Loop to find data frames that pass criteria
-for (i in 1:1000000) {
+for (i in 1:5000000) {
   # Make a random data frame of 20 trials sampled from list, sample without replacement
   df <- comb %>% slice_sample(n = 20, replace = FALSE)
   
@@ -85,16 +93,22 @@ for (i in 1:1000000) {
     next
   }
   
-  # Nested loop to add sample hand, runs check to see if there are any combinations or 3 or more
-  for (z in 1:100000) {
+  # Nested loop to add sample hand, runs check to see if there are any runs of 3 or more for the first 2 columns (sample and reward) and if there is an even distribution of congruent and noncongruent trials, and if there is an even distribution of the first 3 columns.
+  for (z in 1:5000000) {
     df_s <- as.data.frame(sam) %>% slice_sample(n = 20, replace = FALSE)
     df_s <- cbind(df_s, df)
     if (any(apply(df_s[, 1:2], 2, function(x)
-      has_consecutive(x, 3)))) {
+      has_consecutive(x, 3))) ||
+      !all(table(paste(df_s[, 1], df_s[, 2], sep = "")) == 5) ||
+      has_consecutive(df_s[,1] == df_s[,2], 3) ||
+      !all(table(paste(df_s[, 1], df_s[, 2], df_s[, 3], sep = ""))  > 3) ) {
       next
+    } else {
+      break
     }
-    break
   }
+  
+  # Five of the different types (RR, LL, RL, & LR)
   
   # Bind to df and add column names
   df <- cbind(df_s[, 1], df)
@@ -133,7 +147,7 @@ for (i in 1:1000000) {
   j = j + 1
   
   # Break once counter is greater than 3
-  if (j > sheets) {
+  if (j > 3) {
     break
   }
   
