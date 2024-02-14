@@ -101,7 +101,7 @@ for (i in 1:5000000) {
       has_consecutive(x, 3))) ||
       !all(table(paste(df_s[, 1], df_s[, 2], sep = "")) == 5) ||
       has_consecutive(df_s[,1] == df_s[,2], 3) ||
-      !all(table(paste(df_s[, 1], df_s[, 2], df_s[, 3], sep = ""))  > 3) ) {
+      !all(table(paste(df_s[, 1], df_s[, 2], df_s[, 3], sep = "")) %in% c(2,3)) ) {
       next
     } else {
       break
