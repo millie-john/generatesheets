@@ -115,21 +115,22 @@ for (i in 1:5000000) {
   colnames(df) <- c("sample", "reward", "move", "finpos")
   
   # Add condition number to df
-  df_temp <- cbind(df, j)
+  df_temp <- cbind(df)
   df_comp <- rbind(df_comp, df_temp)
   
   # Report something was found
   print(paste("Found ", j, " (Iteration ", i, ")", sep = ""))
-  
+
+  df_temp <- df_temp[,c(2,1,3,4)]
+            
   # Add tick boxes and column names
   df_save <- cbind(1:20, df_temp, "[  ]", "[  ]", "", "[  ]", "")
   colnames(df_save) <-
     c("Trial",
-      "Sample",
       "Reward",
+      "Sample",
       "Move",
       "End",
-      "Condition",
       "L",
       "R",
       "",
