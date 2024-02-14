@@ -231,3 +231,6 @@ write.csv(
   file = paste0("List_60", i, ".csv"),
   row.names = FALSE
 )
+
+# Print message where sheets are saved
+cat(paste("Sheets saved in: ",as.character(getwd()),sep=""))
