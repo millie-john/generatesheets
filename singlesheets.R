@@ -152,3 +152,7 @@ for (i in 1:5000000) {
   }
   
 }
+
+# Print message where sheets are saved
+cat(paste("Sheets saved in: ",as.character(getwd()),sep=""))
+
