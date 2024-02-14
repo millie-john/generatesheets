@@ -1,5 +1,5 @@
 # Generate Sheets
-Scripts to generate randomized sheets for testing.
+Scripts to generate randomized sheets for testing. Packages should auto-install if not already available. The easiest thing to do is select the entire script and run it all in R studio. Sheets will be saved in CSV format in the working directory. For individual sheets, the scripts use a blunt approach of generating a random sheet, testing it to see if it fits the rules, and throwing it out and starting again if it doesn't. For mixing the 3 sets of conditions, the scripts will try to randomly sample and add the line to the final sheet, if it fits the rules it will continue and add another line, if it doesn't it will fail after x iterations and start again as sometimes the script will create an unsolvable puzzle requiring the reset. 
 
 ## `singlesheets.R`
 
