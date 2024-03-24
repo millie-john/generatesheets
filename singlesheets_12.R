@@ -1,6 +1,6 @@
 # Generate 12 trial sheets
 # Written by Millie Johnston
-# Version 0.0
+# Version 0.1
 # Last updated 2024-03-24
 
 ### Randomise hand movements
@@ -94,14 +94,16 @@ for (i in 1:5000000) {
   }
   
   # Nested loop to add sample hand, runs check to see if there are any runs of 3 or more for the first 2 columns (sample and reward) and if there is an even distribution of congruent and noncongruent trials, and if there is an even distribution of the first 3 columns.
-  for (z in 1:5000000) {
+  for (z in 1:5000) {
     df_s <- as.data.frame(sam) %>% slice_sample(n = 12, replace = FALSE)
     df_s <- cbind(df_s, df)
     if (any(apply(df_s[, 1:2], 2, function(x)
       has_consecutive(x, 3))) ||
       !all(table(paste(df_s[, 1], df_s[, 2], sep = "")) == 3) ||
       has_consecutive(df_s[,1] == df_s[,2], 3) ||
-      !all(table(paste(df_s[, 1], df_s[, 2], df_s[, 3], sep = ""))  > 2) ) {
+      !all(table(paste(df_s[, 1], df_s[, 2], df_s[, 3], sep = ""))  < 3) ||
+      !length(table(paste(df_s[, 1], df_s[, 2], df_s[, 3], sep = ""))) == 8 )
+      {
       next
     } else {
       break
