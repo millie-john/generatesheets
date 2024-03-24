@@ -1,6 +1,6 @@
 # Generate 12 trial sheets
 # Written by Millie Johnston
-# Version 0.1
+# Version 0.2
 # Last updated 2024-03-24
 
 ### Randomise hand movements
@@ -75,6 +75,7 @@ has_consecutive <- function(vec, n) {
 # Prepare for loop
 j = 1 # Start of counter so you can stop it after generating "sheets" lists
 df_comp <- data.frame() # Empty data frame to bind the lists
+broke = FALSE # Help incase time out
 
 # Loop to find data frames that pass criteria
 for (i in 1:5000000) {
@@ -94,7 +95,7 @@ for (i in 1:5000000) {
   }
   
   # Nested loop to add sample hand, runs check to see if there are any runs of 3 or more for the first 2 columns (sample and reward) and if there is an even distribution of congruent and noncongruent trials, and if there is an even distribution of the first 3 columns.
-  for (z in 1:5000) {
+  for (z in 1:1000) {
     df_s <- as.data.frame(sam) %>% slice_sample(n = 12, replace = FALSE)
     df_s <- cbind(df_s, df)
     if (any(apply(df_s[, 1:2], 2, function(x)
@@ -103,11 +104,20 @@ for (i in 1:5000000) {
       has_consecutive(df_s[,1] == df_s[,2], 3) ||
       !all(table(paste(df_s[, 1], df_s[, 2], df_s[, 3], sep = ""))  < 3) ||
       !length(table(paste(df_s[, 1], df_s[, 2], df_s[, 3], sep = ""))) == 8 )
-      {
-      next
+    {
+      next;
+      if (z == 999 ) {
+        broke = TRUE
+        break
+      }
     } else {
       break
     }
+  }
+  
+  if (broke) {
+    broke = FALSE;
+    next
   }
   
   # Five of the different types (RR, LL, RL, & LR)
