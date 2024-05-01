@@ -1,7 +1,7 @@
 # Generate 20 trial sheets
 # Written by Millie Johnston
-# Version 0.1
-# Last updated 2024-03-24
+# Version 0.2
+# Last updated 2024-05-01
 
 ### Randomise hand movements
 ##-----------------------------------------------
@@ -76,7 +76,7 @@ has_consecutive <- function(vec, n) {
 # Prepare for loop
 j = 1 # Start of counter so you can stop it after generating "sheets" lists
 df_comp <- data.frame() # Empty data frame to bind the lists
-break = FALSE
+broke = FALSE
 
 # Loop to find data frames that pass criteria
 for (i in 1:5000000) {
@@ -178,6 +178,11 @@ for (i in 1:5000000) {
 
 # Make a copy and remove first two rows
 
+## Condition 1 large jar is rewarding (L or R)
+## Condition 2 large jar is opposite or rewarding (L or R)
+## if condition = 1 then large jar = rewarding
+## if condition = 2 then large jar = opposite of rewarding
+
 df_copy <- df_comp
 
 new_df <- df_copy[1:2,]
@@ -208,9 +213,16 @@ while (nrow(df_copy) > 0) {
   temp <-
     as.data.frame(rbind(new_df[(nrow(new_df) - 1):(nrow(new_df)),], roi))
   
+  big_jar <- rep(0,nrow(new_df))
+  big_jar[new_df$j == 1 & new_df$reward == "R"] <- "BigJar_R"
+  big_jar[new_df$j == 1 & new_df$reward == "L"] <- "BigJar_L"
+  big_jar[new_df$j == 2 & new_df$reward == "R"] <- "BigJar_L"
+  big_jar[new_df$j == 2 & new_df$reward == "L"] <- "BigJar_R"
+  
   if (!any(apply(temp[, 1:5], 2, function(x)
     # Check for consecutive
-    has_consecutive(x, 3)))) {
+    has_consecutive(x, 3))) ||
+    has_consecutive(big_jar, 2)) {
     # If pass, bind new roi
     new_df <- rbind(new_df, roi)
     
@@ -225,7 +237,7 @@ while (nrow(df_copy) > 0) {
     df_copy <- df_copy[death,]
     
   }
-  
+
 }
 
 # Add tick boxes and column names
