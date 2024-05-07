@@ -1,7 +1,7 @@
 # Generate 20 trial sheets
 # Written by Millie Johnston
-# Version 0.2
-# Last updated 2024-05-01
+# Version 0.3
+# Last updated 2024-04-27
 
 ### Randomise hand movements
 ##-----------------------------------------------
@@ -213,16 +213,15 @@ while (nrow(df_copy) > 0) {
   temp <-
     as.data.frame(rbind(new_df[(nrow(new_df) - 1):(nrow(new_df)),], roi))
   
-  big_jar <- rep(0,nrow(new_df))
-  big_jar[new_df$j == 1 & new_df$reward == "R"] <- "BigJar_R"
-  big_jar[new_df$j == 1 & new_df$reward == "L"] <- "BigJar_L"
-  big_jar[new_df$j == 2 & new_df$reward == "R"] <- "BigJar_L"
-  big_jar[new_df$j == 2 & new_df$reward == "L"] <- "BigJar_R"
+  temp$big_jar <- 0
+  temp$big_jar[temp$j == 1 & temp$reward == "R"] <- "BigJar_R"
+  temp$big_jar[temp$j == 1 & temp$reward == "L"] <- "BigJar_L"
+  temp$big_jar[temp$j == 2 & temp$reward == "R"] <- "BigJar_L"
+  temp$big_jar[temp$j == 2 & temp$reward == "L"] <- "BigJar_R"
   
-  if (!any(apply(temp[, 1:5], 2, function(x)
+  if (!any(apply(temp[, 1:6], 2, function(x)
     # Check for consecutive
-    has_consecutive(x, 3))) ||
-    has_consecutive(big_jar, 2)) {
+    has_consecutive(x, 3)))) {
     # If pass, bind new roi
     new_df <- rbind(new_df, roi)
     
