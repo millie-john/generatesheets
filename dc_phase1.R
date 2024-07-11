@@ -110,7 +110,7 @@ for (i in 1:500000) {
 
 write.csv(
   x = df2,
-  file = paste0("List_20_", i, ".csv"),
+  file = paste0("dc_phase1_", i, ".csv"),
   row.names = FALSE
 )
   
