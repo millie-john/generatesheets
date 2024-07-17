@@ -1,6 +1,7 @@
 # Phase 1
 # Version 0.1
-# Last updated 2024-07-10
+# Last updated 2024-07-17
+  # Millie changes lines 37/38 around and line 46 
 
 ### Double choice phase 1
 ##-----------------------------------------------
@@ -34,15 +35,15 @@ library(dplyr)
 # Second location
 
 # Create list of variables
-data <- list(initial_reward = c("R", "L"),
-             first_sample = c("P", "C"),
+data <- list(first_sample = c("R", "L"),
+              initial_reward = c("R", "L"),
               first_movement = c("P","C"))
 
 # Make a grid of possible list combinations
 comb <- expand.grid(data)
 
 # Add final positions to grid
-finpos <- apply(comb[, c(1,3)], 1, function(x)
+finpos <- apply(comb[, c(2,3)], 1, function(x)
   paste0(x[1], x[2]))
 
 finpos <-
