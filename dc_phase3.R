@@ -110,3 +110,9 @@ for (i in 1:500000) {
   break
   
 }
+
+write.csv(
+  x = df2,
+  file = paste0("dc_phase3_", i, ".csv"),
+  row.names = FALSE
+)
