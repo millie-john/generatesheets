@@ -35,15 +35,15 @@ library(dplyr)
 # Second location
 
 # Create list of variables
-data <- list(initial_reward = c("R", "L"),
-             first_sample = c("P", "C"),
-              first_movement = c("P","B"))
+data <- list(first_sample = c("R", "L"),
+             initial_reward = c("R", "L"),
+             first_movement = c("P","B"))
 
 # Make a grid of possible list combinations
 comb <- expand.grid(data)
 
 # Add final positions to grid
-finpos <- apply(comb[, c(1,3)], 1, function(x)
+finpos <- apply(comb[, c(2,3)], 1, function(x)
   paste0(x[1], x[2]))
 
 finpos <-
