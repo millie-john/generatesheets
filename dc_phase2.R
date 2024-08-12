@@ -1,7 +1,8 @@
 # Phase 2
 # Version 0.1
-# Last updated 2024-07-17
-  # Millie changed lines 37/38 around and changed line 47
+# Last updated 2024-08-12
+# Millie changed lines 37/38 around and changed line 47
+# Fix first movement C to B
 
 ### Double choice phase 2
 ##-----------------------------------------------
@@ -37,8 +38,8 @@ library(dplyr)
 
 # Create list of variables
 data <- list(first_sample = c("R", "L"),
-              initial_reward = c("R", "L"),
-              first_movement = c("P","C"))
+             initial_reward = c("R", "L"),
+             first_movement = c("P","B"))
 
 # Make a grid of possible list combinations
 comb <- expand.grid(data)
@@ -48,7 +49,7 @@ finpos <- apply(comb[, c(2,3)], 1, function(x)
   paste0(x[1], x[2]))
 
 finpos <-
-  ifelse(finpos == "LP", "L", ifelse(finpos == "RP", "R", ifelse(finpos == "LC", "R", "L")))
+  ifelse(finpos == "LP", "L", ifelse(finpos == "RP", "R", ifelse(finpos == "LB", "L", "R")))
 
 comb$first_choice<-finpos
 
@@ -100,7 +101,7 @@ for (i in 1:500000) {
   
   # Make a random data frame of 10 trials sampled from list, sample without replacement
   df2 <- df %>% slice_sample(n = 20, replace = FALSE)
-
+  
   if (any(apply(df2[,c(1,2,3,4,5,7)], 2, function(x)
     has_consecutive(x, 4)))) {
     next
@@ -112,6 +113,7 @@ for (i in 1:500000) {
   
 }
 
+# Write simple CSV file
 write.csv(
   x = df2,
   file = paste0("dc_phase2_", i, ".csv"),
