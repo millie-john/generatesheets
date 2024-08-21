@@ -282,8 +282,6 @@ p3$phase<-"P3"
 
 p4<-rbind(p1,p2,p3)
 
-# This wont work yet!!!
-                
 for (i in 1:500000) {
   
   # Make a random data frame of 10 trials sampled from list, sample without replacement
@@ -294,17 +292,16 @@ for (i in 1:500000) {
   if (!sum(p4n$phase=="P2")==6) { next }
   if (!sum(p4n$phase=="P3")==8) { next }
 
-  if (!sum(p4n$first_sample=="L")==10)   { next }
-  if (!sum(p4n$initial_reward=="L")==10) { next }
-  if (!sum(p4n$first_movement=="C")==3)  { next }
-  if (!sum(p4n$first_movement=="P")==10) { next }
-  if (!sum(p4n$first_movement=="B")==7)  { next }
-  if (!sum(p4n$first_choice=="L")==10)   { next }
-  if (!sum(p4n$second_movement=="B")==6) { next }
-  if (!sum(p4n$second_movement=="C")==9) { next }
-  if (!sum(p4n$second_movement=="P")==5) { next }
-  if (!sum(p4n$second_choice=="L")==10)  { next }
-
+  if (!sum(p4n$initial_reward=="L")>8) { next }
+  if (!sum(p4n$first_movement=="C")>2)  { next }
+  if (!sum(p4n$first_movement=="P")>8) { next }
+  if (!sum(p4n$first_movement=="B")>5)  { next }
+  if (!sum(p4n$first_choice=="L")>8)   { next }
+  if (!sum(p4n$second_movement=="B")>4) { next }
+  if (!sum(p4n$second_movement=="C")>7) { next }
+  if (!sum(p4n$second_movement=="P")>3) { next }
+  if (!sum(p4n$second_choice=="L")>8)  { next }
+  
   cat(i)
   
   if (any(apply(p4n[,c(1,2,3,4,5,7,8)], 2, function(x)
@@ -313,6 +310,12 @@ for (i in 1:500000) {
   }
   
   cat(i)
+  
+  write.csv(
+    x = p4n,
+    file = paste0("dc_phase4_", i, ".csv"),
+    row.names = FALSE
+  )
   
   break
   
